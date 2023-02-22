@@ -1,14 +1,19 @@
-import './globals.css'
-
+import "./globals.css";
+import { Roboto } from "@next/font/google";
+import Header from "@/components/Header";
+const roboto = Roboto({
+  weight: ["400", "300", "700"],
+  subsets: ["latin"],
+  variable: "--font-opensans",
+});
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
       <head />
-      <body>{children}</body>
+      <body className={`${roboto.className} bg-black text-white`}>
+        <Header />
+        {children}
+      </body>
     </html>
-  )
+  );
 }
