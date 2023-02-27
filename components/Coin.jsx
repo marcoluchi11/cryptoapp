@@ -1,6 +1,6 @@
 "use client";
-
 import Image from "next/image";
+import Link from "next/link";
 
 const Coin = ({ coin }) => {
   return (
@@ -20,8 +20,12 @@ const Coin = ({ coin }) => {
             height={35}
             className="mx-5"
           />
-          <p className=" text-center mx-5 font-semibold">{coin.name}</p>
-          <p className="text-center font-light">{coin.symbol.toUpperCase()}</p>
+          <Link href={`/${coin.name}`} className="cursor-pointer">
+            <p className=" text-center mx-5 font-semibold">{coin.name}</p>
+            <p className="text-center font-light">
+              {coin.symbol.toUpperCase()}
+            </p>
+          </Link>
         </div>
       </div>
       <div className="flex w-1/2 items-center">
