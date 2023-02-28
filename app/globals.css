@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+table {
+  border-collapse: collapse;
+
+  width: 100%;
+  /* margin-bottom: 20px; */
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.5rem;
+
+  font-size: 16px;
+}
+
+th {
+  font-weight: bold;
+}
+tbody tr {
+  margin: 5rem 0;
+}
+table tbody tr {
+  margin: 10rem 0;
+}
