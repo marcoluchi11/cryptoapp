@@ -9,12 +9,24 @@ export default async function Home() {
   const result = await data.json();
 
   return (
-    <main className="flex flex-col items-center justify-between h-screen">
-      <div className="flex flex-col min-w-full">
-        {result.map((coin) => (
-          <Coin key={nanoid()} coin={coin} />
-        ))}
-      </div>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th className="text-center">Rank</th>
+            <th className="text-center">Logo</th>
+            <th>Name</th>
+            <th className="text-center">Current Price</th>
+            <th className="text-center hidden md:block">Market Cap Total</th>
+            <th className="text-center">Add</th>
+          </tr>
+        </thead>
+        <tbody>
+          {result.map((coin) => (
+            <Coin key={nanoid()} coin={coin} />
+          ))}
+        </tbody>
+      </table>
     </main>
   );
 }
