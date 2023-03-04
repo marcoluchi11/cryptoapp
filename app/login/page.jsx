@@ -1,10 +1,10 @@
 "use client";
-import Form from "@/components/Form";
+import FormLogin from "@/components/FormLogin";
 
 export default function Login() {
   return (
     <section>
-      <Form />
+      <FormLogin />
     </section>
   );
 }

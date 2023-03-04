@@ -1,8 +1,8 @@
-import Form from "@/components/Form";
+import FormSignUp from "@/components/FormSignUp";
 const Login = () => {
   return (
     <section>
-      <Form />
+      <FormSignUp />
     </section>
   );
 };
