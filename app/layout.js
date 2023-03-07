@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
-      <body className={`${roboto.className} bg-gray-500 text-white`}>
+      <body className={`${roboto.className} bg-gray-700 text-white`}>
         <CryptoProvider>
           <Header />
           {children}
