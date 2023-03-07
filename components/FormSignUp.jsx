@@ -21,7 +21,6 @@ export default function Form() {
     try {
       setError({ state: false, message: "" });
       await createUserWithEmailAndPassword(auth, email, password);
-      setLoading(true);
       setSuccess({
         state: true,
         message: "User created Succesfully. Go to Sign In",
@@ -38,30 +37,31 @@ export default function Form() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center"
+      className="flex flex-col justify-center items-center mt-10"
     >
-      <label htmlFor="email">Email</label>
       <input
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         type="email"
         name="email"
         id="email"
-        className="text-black"
+        placeholder="Email"
+        className="text-black my-4 px-1 rounded py-1"
       />
-      <label htmlFor="password">Password</label>
+
       <input
-        className="text-black"
+        className="text-black px-1 rounded py-1"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         type="password"
         name="password"
         id="password"
+        placeholder="Password"
       />
       <input
         type="submit"
         value="Sign Up"
-        className="cursor-pointer bg-white text-black m-5 rounded px-3 py-2"
+        className="cursor-pointer bg-white text-black m-5 rounded px-3 py-2 w-40 transition-colors hover:bg-slate-700 hover:text-white"
       />
       <Link className="hover:underline" href="/login">
         <p>Already have an account?</p>
