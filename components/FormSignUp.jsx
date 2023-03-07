@@ -66,9 +66,11 @@ export default function Form() {
       <Link className="hover:underline" href="/login">
         <p>Already have an account?</p>
       </Link>
-      {loading && <Spinner />}
-      {success.state && <Success message={success.message} />}
-      {error.state && <Error message={error.message} />}
+      <section className="mt-5">
+        {loading && <Spinner />}
+        {success.state && <Success message={success.message} />}
+        {error.state && <Error message={error.message} />}
+      </section>
     </form>
   );
 }
