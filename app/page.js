@@ -22,9 +22,11 @@ export default async function Home() {
           </tr>
         </thead>
         <tbody>
-          {result.map((coin) => (
-            <Coin key={nanoid()} coin={coin} />
-          ))}
+          {result ? (
+            result.map((coin) => <Coin key={nanoid()} coin={coin} />)
+          ) : (
+            <p>holis</p>
+          )}
         </tbody>
       </table>
     </main>
