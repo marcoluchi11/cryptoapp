@@ -1,7 +1,8 @@
 "use client";
-import auth from "@/config";
+import auth, { database } from "@/config";
 import { CryptoContext } from "@/context/CryptoContext";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import Error from "./Error";
@@ -20,7 +21,9 @@ export default function Form() {
     }
     try {
       setError({ state: false, message: "" });
+      const docData = { email, coins: [] };
       await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(database, "users", email), docData);
       setSuccess({
         state: true,
         message: "User created Succesfully. Go to Sign In",
