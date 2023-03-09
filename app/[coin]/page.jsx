@@ -16,7 +16,12 @@ const Coin = async ({ params }) => {
           <h1 className="uppercase text-xl text-gray-500 mx-2">
             {result.symbol}
           </h1>
-          <Image src={result.image.large} alt="logo" height={35} width={35} />
+          <Image
+            src={result.image.large || result.image.small || result.image.thumb}
+            alt="logo"
+            height={35}
+            width={35}
+          />
           <h3 className="text-red-500 ml-2 font-bold">
             {result.market_data.price_change_percentage_24h.toFixed(2)}%
           </h3>
