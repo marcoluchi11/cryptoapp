@@ -7,7 +7,8 @@ import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { RxAvatar } from "react-icons/rx";
 const Login = () => {
-  const { user, setUser, getCoins, portfolio } = useContext(CryptoContext);
+  const { user, setUser, getCoins, portfolio, setPortfolio } =
+    useContext(CryptoContext);
   const signOut = async () => {
     try {
       await auth.signOut();
@@ -20,13 +21,8 @@ const Login = () => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-    const getData = async () => {
-      getCoins();
-      console.log(portfolio.toString());
-      const url = `https://api.coingecko.com/api/v3/simple/price?ids=${portfolio.toString()}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=false&precision=false`;
-    };
-    getData();
-    //eslint-disable-next-line
+    getCoins();
+    // eslint-disable-next-line
   }, [setUser, user]);
   if (user)
     return (

@@ -16,14 +16,25 @@ export const CryptoProvider = ({ children }) => {
   // const usersRef = collection(database, "users", "marq@gmail.com");
 
   const getCoins = async () => {
-    console.log(user.email);
     const docRef = doc(database, "users", user.email);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      setPortfolio(docSnap.data().coins);
+      const dbCoins = docSnap.data().coins;
+      const idString = dbCoins.map((item) => item.id);
+
+      const url = `https://api.coingecko.com/api/v3/simple/price?ids=${idString.toString()}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=false&precision=false`;
+      const data = await fetch(url);
+      const result = await data.json();
+      const addData = dbCoins.map((item) => {
+        return {
+          ...item,
+          ...result[item.id],
+        };
+      });
+      setPortfolio(addData);
     } else {
-      // doc.data() will be undefined in this case
+      setPortfolio([]);
       console.log("No such document!");
     }
   };
