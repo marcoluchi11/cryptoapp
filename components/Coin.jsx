@@ -8,13 +8,18 @@ import { useContext } from "react";
 
 const Coin = ({ coin }) => {
   const { user } = useContext(CryptoContext);
-  // const usersCollectionRef = collection(database, "users");
   const addCoin = async (coin) => {
     try {
       if (user) {
         const userRef = doc(database, "users", user.email);
+        const chosenCoin = {
+          id: coin.id,
+          name: coin.name,
+          symbol: coin.symbol,
+          img: coin.image,
+        };
         const newFields = {
-          coins: arrayUnion(coin.id),
+          coins: arrayUnion(chosenCoin),
         };
         await updateDoc(userRef, newFields);
         console.log("Coin added succesfully");
