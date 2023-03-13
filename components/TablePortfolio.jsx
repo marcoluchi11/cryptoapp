@@ -7,14 +7,15 @@ import ItemPortfolio from "./ItemPortfolio";
 export default function TablePortfolio() {
   const { portfolio } = useContext(CryptoContext);
   return (
-    <table>
+    <table className="border-collapse w-full">
       <thead>
-        <tr>
-          <th>Coin</th>
+        <tr className="w-full">
+          <th className=" text-center">Coin</th>
           <th>Price</th>
-          <th>Market Cap</th>
-          <th>24h Vol</th>
           <th>Last 24h</th>
+          <th className="text-left">Market Cap</th>
+          <th className="text-left hidden md:block">24h Vol</th>
+          <th>Remove</th>
         </tr>
       </thead>
       <tbody>
