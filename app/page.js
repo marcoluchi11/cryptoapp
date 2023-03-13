@@ -10,13 +10,14 @@ export default async function Home() {
 
   return (
     <main>
-      <table>
+      <table className="border-collapse w-full">
         <thead>
           <tr>
             <th className="text-center">Rank</th>
             <th className="text-center">Logo</th>
-            <th>Name</th>
+            <th className="text-left">Name</th>
             <th className="text-center">Current Price</th>
+            <th className="text-center">Last 24h</th>
             <th className="text-center hidden md:block">Market Cap Total</th>
             <th className="text-center">Add</th>
           </tr>
@@ -25,7 +26,7 @@ export default async function Home() {
           {result ? (
             result.map((coin) => <Coin key={nanoid()} coin={coin} />)
           ) : (
-            <p>holis</p>
+            <p>There was an server external error</p>
           )}
         </tbody>
       </table>
