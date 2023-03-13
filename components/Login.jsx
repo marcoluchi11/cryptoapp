@@ -28,12 +28,14 @@ const Login = () => {
     return (
       <ul className="flex gap-10 items-center">
         <Link href="/portfolio">
-          <li className="cursor-pointer hover:underline">My Portfolio</li>
+          <li className="cursor-pointer hover:underline">
+            My Portfolio ({portfolio.length})
+          </li>
         </Link>
         <li className=" flex items-center text-ellipsis whitespace-nowrap overflow-hidden w-30">
           <RxAvatar className="mx-3 cursor-text" size={30} />
 
-          <span className="hidden md:block">{user.email}</span>
+          <span className="font-bold hidden md:block">{user.email}</span>
         </li>
         <li
           onClick={signOut}
