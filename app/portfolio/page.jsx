@@ -2,21 +2,25 @@
 import Spinner from "@/components/Spinner";
 import TablePortfolio from "@/components/TablePortfolio";
 import { CryptoContext } from "@/context/CryptoContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 export default function Portfolio() {
-  const { portfolio } = useContext(CryptoContext);
-
+  const { portfolio, getCoins } = useContext(CryptoContext);
+  useEffect(() => {
+    if (portfolio.length === 0) {
+      getCoins();
+    }
+    //eslint-disable-next-line
+  }, []);
   if (portfolio.length === 0)
     return (
-      <div>
+      <div className="mt-10 flex items-center justify-center">
         <Spinner />
       </div>
     );
   return (
-    <div>
-      <h1>My portfolio</h1>
+    <section>
       <TablePortfolio />
-    </div>
+    </section>
   );
 }
