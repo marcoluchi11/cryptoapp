@@ -34,7 +34,6 @@ export default function Form() {
       setPassword("");
       setTimeout(() => {
         setSuccess({ state: false, message: "" });
-        router.push("/");
       }, 3000);
       setUser(userCredential.user);
     } catch (err) {
