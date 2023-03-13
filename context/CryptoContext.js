@@ -8,18 +8,16 @@ export const CryptoContext = createContext();
 
 export const CryptoProvider = ({ children }) => {
   const [error, setError] = useState({ state: false, message: "" });
-  const [success, setSuccess] = useState({ state: false, message: "holu" });
+  const [success, setSuccess] = useState({ state: false, message: "" });
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
   const [coins, setCoins] = useState([]);
-  // const usersRef = collection(database, "users", "marq@gmail.com");
 
   const getCoins = async () => {
-    const docRef = doc(database, "users", user.email);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
+    try {
+      const docRef = doc(database, "users", user.email);
+      const docSnap = await getDoc(docRef);
       const dbCoins = docSnap.data().coins;
       const idString = dbCoins.map((item) => item.id);
 
@@ -33,9 +31,9 @@ export const CryptoProvider = ({ children }) => {
         };
       });
       setPortfolio(addData);
-    } else {
+    } catch (err) {
       setPortfolio([]);
-      console.log("No such document!");
+      console.log("No such document!", err);
     }
   };
   return (
