@@ -30,7 +30,7 @@ export const CryptoProvider = ({ children }) => {
           ...result[item.id],
         };
       });
-      setPortfolio(addData);
+      setPortfolio(addData.sort((a, b) => b.usd - a.usd));
     } catch (err) {
       setPortfolio([]);
       console.log("No such document!", err);
