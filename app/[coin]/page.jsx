@@ -2,10 +2,10 @@ import Info from "@/components/Info";
 import MktCap from "@/components/MktCap";
 import Image from "next/image";
 
-const Coin = async ({ params }) => {
+export default async function Coin({ params }) {
   const { coin } = params;
   const url = `https://api.coingecko.com/api/v3/coins/${coin.toLowerCase()}`;
-  const data = await fetch(url);
+  const data = await fetch(url, { cache: "no-store" });
   const result = await data.json();
   return (
     <div className="flex flex-col lg:flex-row justify-evenly items-center">
@@ -34,6 +34,4 @@ const Coin = async ({ params }) => {
       <Info data={result} />
     </div>
   );
-};
-
-export default Coin;
+}
