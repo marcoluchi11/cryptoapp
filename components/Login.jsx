@@ -7,12 +7,12 @@ import Link from "next/link";
 import { useContext, useEffect } from "react";
 import { RxAvatar } from "react-icons/rx";
 const Login = () => {
-  const { user, setUser, getCoins, portfolio, setPortfolio } =
-    useContext(CryptoContext);
+  const { user, setUser, getCoins, portfolio } = useContext(CryptoContext);
   const signOut = async () => {
     try {
       await auth.signOut();
-      console.log("User signed out successfully");
+
+      localStorage.setItem("portfolio", JSON.stringify([]));
     } catch (err) {
       console.error(err);
     }

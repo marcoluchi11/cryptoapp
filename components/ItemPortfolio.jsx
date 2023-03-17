@@ -11,6 +11,7 @@ export default function ItemPortfolio({ coin }) {
     try {
       const filteredPortfolio = portfolio.filter((item) => item.id !== coin.id);
       setPortfolio(filteredPortfolio);
+      localStorage.setItem("portfolio", JSON.stringify(filteredPortfolio));
       const userRef = doc(database, "users", user.email);
 
       const newFields = {

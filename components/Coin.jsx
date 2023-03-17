@@ -54,6 +54,19 @@ const Coin = ({ coin }) => {
             usd_24h_vol: coin.total_volume,
           },
         ]);
+        localStorage.setItem(
+          "portfolio",
+          JSON.stringify([
+            ...portfolio,
+            {
+              ...chosenCoin,
+              usd: coin.current_price,
+              usd_market_cap: coin.market_cap,
+              usd_24h_change: coin.price_change_percentage_24h,
+              usd_24h_vol: coin.total_volume,
+            },
+          ])
+        );
         const newFields = {
           coins: arrayUnion(chosenCoin),
         };
