@@ -1,13 +1,25 @@
 "use client";
-
-import auth from "@/config";
+import auth, { database, googleAuth } from "@/config";
 import { CryptoContext } from "@/context/CryptoContext";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import Image from "next/image";
 import Link from "next/link";
+
 import { useContext, useEffect } from "react";
-import { RxAvatar } from "react-icons/rx";
 const Login = () => {
-  const { user, setUser, getCoins, portfolio } = useContext(CryptoContext);
+  const { user, setUser, getCoins, portfolio, setError, setSuccess } =
+    useContext(CryptoContext);
+  const loginGoogle = async () => {
+    try {
+      setError({ state: false, message: "" });
+      const result = await signInWithPopup(auth, googleAuth);
+      const docData = { email: result.email, coins: [] };
+      await setDoc(doc(database, "users", result.email), docData);
+    } catch (err) {
+      setError({ state: true, message: err.code });
+    }
+  };
   const signOut = async () => {
     try {
       await auth.signOut();
@@ -20,6 +32,7 @@ const Login = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log(currentUser);
     });
     getCoins();
     // eslint-disable-next-line
@@ -33,9 +46,13 @@ const Login = () => {
           </li>
         </Link>
         <li className=" flex items-center text-ellipsis whitespace-nowrap overflow-hidden w-30">
-          <RxAvatar className="mx-3 cursor-text" size={30} />
-
-          <span className="font-bold hidden md:block">{user.email}</span>
+          <Image
+            className="rounded-full"
+            src={user.photoURL}
+            alt="avatar"
+            width={40}
+            height={40}
+          />
         </li>
         <li
           onClick={signOut}
@@ -49,14 +66,30 @@ const Login = () => {
   return (
     <ul className="flex gap-10 items-center">
       <li className="cursor-pointer hover:underline">Portfolio</li>
-      <Link href="/login">
-        <li className="cursor-pointer hover:underline">Login</li>
-      </Link>
-      <Link href="/signup">
-        <li className=" cursor-pointer font-bold bg-green-400 px-3 py-2 transition-colors hover:bg-white hover:text-green-400 rounded-md">
-          Sign Up
-        </li>
-      </Link>
+
+      <li onClick={() => loginGoogle()}>
+        <button
+          type="button"
+          className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-bold rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55"
+        >
+          <svg
+            className="w-4 h-4 mr-2 -ml-1"
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fab"
+            data-icon="google"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 488 512"
+          >
+            <path
+              fill="currentColor"
+              d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
+            ></path>
+          </svg>
+          Sign in with Google
+        </button>
+      </li>
     </ul>
   );
 };
