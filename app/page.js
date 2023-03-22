@@ -1,4 +1,5 @@
 import Coin from "@/components/Coin";
+import Footer from "@/components/Footer";
 import { nanoid } from "nanoid";
 
 export default async function Home() {
@@ -7,7 +8,6 @@ export default async function Home() {
     { next: { revalidate: 120 } }
   );
   const result = await data.json();
-
   return (
     <main>
       <table className="border-collapse w-full">
@@ -30,6 +30,7 @@ export default async function Home() {
           )}
         </tbody>
       </table>
+      <Footer />
     </main>
   );
 }

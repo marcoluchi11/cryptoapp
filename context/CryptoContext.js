@@ -14,15 +14,9 @@ export const CryptoProvider = ({ children }) => {
   const [portfolio, setPortfolio] = useState([]);
   const [coins, setCoins] = useState([]);
 
-  const getCoins = async () => {
+  const getCoins = async (current) => {
     try {
-      const local = JSON.parse(localStorage.getItem("portfolio"));
-
-      if (local) {
-        setPortfolio(local);
-        return;
-      }
-      const docRef = doc(database, "users", user.email);
+      const docRef = doc(database, "users", current.email);
       const docSnap = await getDoc(docRef);
       const dbCoins = docSnap.data().coins;
       const idString = dbCoins.map((item) => item.id);
@@ -36,12 +30,7 @@ export const CryptoProvider = ({ children }) => {
           ...result[item.id],
         };
       });
-      alert("llega aca");
       setPortfolio(addData.sort((a, b) => b.usd - a.usd));
-      localStorage.setItem(
-        "portfolio",
-        JSON.stringify(addData.sort((a, b) => b.usd - a.usd))
-      );
     } catch (err) {
       setPortfolio([]);
       console.log("No such document!", err);

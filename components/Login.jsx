@@ -1,30 +1,43 @@
 "use client";
-import auth, { database, googleAuth } from "@/config";
+import auth, { database } from "@/config";
 import { CryptoContext } from "@/context/CryptoContext";
-import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+} from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import Image from "next/image";
 import Link from "next/link";
-
 import { useContext, useEffect } from "react";
 const Login = () => {
-  const { user, setUser, getCoins, portfolio, setError, setSuccess } =
-    useContext(CryptoContext);
+  const { user, setUser, getCoins, portfolio } = useContext(CryptoContext);
   const loginGoogle = async () => {
     try {
-      setError({ state: false, message: "" });
-      const result = await signInWithPopup(auth, googleAuth);
-      const docData = { email: result.email, coins: [] };
-      await setDoc(doc(database, "users", result.email), docData);
-    } catch (err) {
-      setError({ state: true, message: err.code });
+      const provider = new GoogleAuthProvider();
+
+      const result = await signInWithPopup(auth, provider);
+      setUser(result.user);
+      const emailRef = doc(database, "users", result.user.email);
+      const docSnap = await getDoc(emailRef);
+
+      if (!docSnap.exists()) {
+        const docData = { email: result.user.email, coins: [] };
+        await setDoc(emailRef, docData);
+      }
+      getCoins();
+    } catch (error) {
+      const errorCode = error.code;
+      console.error(errorCode);
+      const errorMessage = error.message;
+      console.error(errorMessage);
     }
   };
   const signOut = async () => {
     try {
       await auth.signOut();
-
-      localStorage.setItem("portfolio", JSON.stringify([]));
+      // localStorage.setItem("portfolio", JSON.stringify([]));
+      // setPortfolio([]);
     } catch (err) {
       console.error(err);
     }
@@ -32,14 +45,13 @@ const Login = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(currentUser);
+      getCoins(currentUser);
     });
-    getCoins();
     // eslint-disable-next-line
-  }, [setUser, user]);
+  }, [setUser]);
   if (user)
     return (
-      <ul className="flex gap-10 items-center">
+      <ul className="flex gap-10  items-center">
         <Link href="/portfolio">
           <li className="cursor-pointer hover:underline">
             My Portfolio ({portfolio.length})
